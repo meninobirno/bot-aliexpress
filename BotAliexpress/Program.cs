@@ -18,6 +18,7 @@ namespace BotAliexpress
 
             if (ValidaUrl(url))
             {
+                html.LoadHtml(chromeDriver.PageSource);
                 string valorInicial = html.DocumentNode.SelectSingleNode("//div[@class='total-price']").InnerText;
                 EfetuaCompra(valorInicial, horarioInicio, valid);
             }

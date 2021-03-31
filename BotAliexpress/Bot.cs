@@ -27,10 +27,13 @@ namespace BotAliexpress
         #region EfetuaCompra
         protected static void EfetuaCompra(string valorInicial, DateTime horarioInicio, bool valid)
         {
+            
             while (!valid)
             {
                 while (DateTime.Parse(DateTime.Now.ToString("HH:mm:ss")) >= horarioInicio)
                 {
+                    html.LoadHtml(chromeDriver.PageSource);
+
                     try
                     {
                         string validacaoPagamento = html.DocumentNode.SelectSingleNode("//div[@class='pay-brief-info']").InnerText;
@@ -49,7 +52,6 @@ namespace BotAliexpress
                         chromeDriver.FindElementByXPath("//div[@class='next-form-item-control']//button").Click();
                         Thread.Sleep(500);
                         chromeDriver.FindElementByXPath("//div[@id='root']").Click();
-                        Thread.Sleep(500);
 
                         html.LoadHtml(chromeDriver.PageSource);
                         string valorFinal = html.DocumentNode.SelectSingleNode("//div[@class='total-price']").InnerText;
@@ -71,9 +73,11 @@ namespace BotAliexpress
         #region SelecionaPagamento
         private static void SelecionaPagamento()
         {
+            html.LoadHtml(chromeDriver.PageSource);
+            Thread.Sleep(600);
             chromeDriver.FindElementByXPath("//button[@class='next-btn next-medium next-btn-primary next-btn-text selected-payment-btn']").Click();
             Thread.Sleep(500);
-            chromeDriver.FindElementByXPath("//div[@ae_object_value = 'select_payoption=BOLETO']").Click();
+            chromeDriver.FindElementByXPath("//div[@ae_object_value='select_payoption=BOLETO']").Click();
             Thread.Sleep(500);
             chromeDriver.FindElementByXPath("//div[@class='save']//button").Click();
             Thread.Sleep(500);
